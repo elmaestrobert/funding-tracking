@@ -1,0 +1,26 @@
+[
+  {
+    "id": "mellon-ai-labor-2026",
+    "title": "AI & the Future of Work Fellowship",
+    "funder": "Mellon Foundation",
+    "category": "AI future of work",
+    "amount_min": 100000,
+    "amount_max": 250000,
+    "deadline": "2026-06-30",
+    "status": "open",
+    "url": "https://example.org/mellon-ai-labor-2026",
+    "description": "Research on how AI reshapes labor markets and workforce policy.",
+    "thematic_fit": 4
+  },
+  {
+    "id": "rsf-automation-wages",
+    "title": "Russell Sage Foundation — Automation and Wages",
+    "funder": "Russell Sage Foundation",
+    "category": "labor economics",
+    "amount": "up to $175,000",
+    "deadline": "2026-08-15",
+    "status": "open",
+    "url": "https://example.org/rsf-automation-wages",
+    "thematic_fit": 4
+  }
+]

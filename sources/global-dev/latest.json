@@ -1,0 +1,35 @@
+[
+  {
+    "id": "gates-ds-global-health-2026",
+    "title": "Data Science for Global Health",
+    "funder": "Gates Foundation",
+    "category": "global health data science",
+    "amount": "$500K–$2M",
+    "deadline": "2026-05-01",
+    "status": "open",
+    "url": "https://example.org/gates-ds-global-health-2026",
+    "description": "Applied data science for disease surveillance and intervention design.",
+    "thematic_fit": 5
+  },
+  {
+    "id": "usaid-data-for-development",
+    "title": "USAID Data for Development RFP",
+    "funder": "USAID",
+    "category": "foreign aid data",
+    "amount": "$1M–$10M",
+    "deadline": "2026-07-15",
+    "status": "open",
+    "url": "https://example.org/usaid-data-for-development",
+    "thematic_fit": 4
+  },
+  {
+    "id": "hewlett-global-dev-open-data",
+    "title": "Hewlett Open Data for Global Development",
+    "funder": "Hewlett Foundation",
+    "amount": "$250K",
+    "rolling": true,
+    "status": "open",
+    "url": "https://example.org/hewlett-global-dev-open-data",
+    "thematic_fit": 3
+  }
+]

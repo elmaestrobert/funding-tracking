@@ -1,0 +1,36 @@
+[
+  {
+    "id": "nist-ai-eval-2026",
+    "title": "NIST AI Evaluation Research Grants",
+    "funder": "NIST",
+    "category": "AI evaluation",
+    "amount": "$300K–$1.5M",
+    "deadline": "2026-05-30",
+    "status": "open",
+    "url": "https://example.org/nist-ai-eval-2026",
+    "description": "Benchmarking and measurement science for frontier AI systems.",
+    "thematic_fit": 5
+  },
+  {
+    "id": "openphil-ai-evals-rfp",
+    "title": "Open Philanthropy AI Evaluations RFP",
+    "funder": "Open Philanthropy",
+    "category": "AI evaluation",
+    "amount": "up to $2M",
+    "rolling": true,
+    "status": "open",
+    "url": "https://example.org/openphil-ai-evals",
+    "thematic_fit": 5
+  },
+  {
+    "id": "darpa-trustworthy-eval",
+    "title": "DARPA Trustworthy AI Evaluation BAA",
+    "funder": "DARPA",
+    "category": "AI evaluation",
+    "amount": "$2M–$8M",
+    "deadline": "2026-06-20",
+    "status": "open",
+    "url": "https://example.org/darpa-trustworthy-eval",
+    "thematic_fit": 4
+  }
+]
