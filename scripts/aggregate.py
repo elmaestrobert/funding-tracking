@@ -24,7 +24,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SOURCES_DIR = ROOT / "sources"
 CENTRAL_DIR = ROOT / "central"
-SITE_DIR = ROOT / "site"
+SITE_DIR = ROOT / "docs"  # GitHub Pages requires '/' or '/docs'
 DB_PATH = CENTRAL_DIR / "funding.sqlite"
 CSV_PATH = CENTRAL_DIR / "funding.csv"
 SCHEMA_PATH = CENTRAL_DIR / "schema.sql"
