@@ -6,17 +6,18 @@
 <title>Funding Opportunities Dashboard</title>
 <style>
   :root {
-    --bg: #0b0d10;
-    --panel: #14181d;
-    --border: #232a31;
-    --text: #e6e8eb;
-    --muted: #8a939c;
-    --accent: #4f9cf9;
-    --chip-bg: #1c2228;
-    --row-hover: #181d23;
-    --open: #2ea043;
-    --closed: #6e7681;
-    --warn: #d29922;
+    --bg: #f7f8fa;
+    --panel: #ffffff;
+    --border: #e3e6ea;
+    --border-strong: #d0d5dc;
+    --text: #1a1f24;
+    --muted: #6a737d;
+    --accent: #0969da;
+    --accent-soft: #ddf4ff;
+    --chip-bg: #f1f3f5;
+    --row-hover: #f3f6fa;
+    --row-selected: #e8f1fb;
+    --warn: #b45309;
   }
   * { box-sizing: border-box; }
   body {
@@ -27,6 +28,7 @@
   }
   header {
     padding: 24px 32px 12px;
+    background: var(--panel);
     border-bottom: 1px solid var(--border);
   }
   header h1 { margin: 0 0 4px; font-size: 22px; font-weight: 600; }
@@ -35,7 +37,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    padding: 16px 32px;
+    padding: 14px 32px;
     border-bottom: 1px solid var(--border);
     background: var(--panel);
     align-items: center;
@@ -43,14 +45,18 @@
   .toolbar input[type=search] {
     flex: 1;
     min-width: 220px;
-    background: var(--bg);
-    border: 1px solid var(--border);
+    background: #fff;
+    border: 1px solid var(--border-strong);
     color: var(--text);
     padding: 8px 12px;
     border-radius: 6px;
     font-size: 14px;
   }
-  .toolbar input[type=search]:focus { outline: 1px solid var(--accent); }
+  .toolbar input[type=search]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
   .chip {
     background: var(--chip-bg);
@@ -63,44 +69,83 @@
     user-select: none;
     transition: all 0.15s;
   }
-  .chip:hover { color: var(--text); }
+  .chip:hover { color: var(--text); border-color: var(--border-strong); }
   .chip.active {
     background: var(--accent);
     border-color: var(--accent);
     color: #fff;
   }
-  table { width: 100%; border-collapse: collapse; }
+  .actionbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 32px;
+    background: var(--accent-soft);
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .actionbar.hidden { display: none; }
+  .btn {
+    background: #fff;
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #0860c8; border-color: #0860c8; color: #fff; }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--muted);
+  }
+  .btn-ghost:hover { color: var(--text); }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); }
   thead th {
     text-align: left;
     padding: 10px 16px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-strong);
     color: var(--muted);
-    font-weight: 500;
-    font-size: 12px;
+    font-weight: 600;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     cursor: pointer;
     user-select: none;
     position: sticky;
     top: 0;
-    background: var(--bg);
+    background: var(--panel);
     z-index: 1;
   }
   thead th:hover { color: var(--text); }
   thead th.sorted::after { content: " ↓"; color: var(--accent); }
   thead th.sorted.asc::after { content: " ↑"; }
+  thead th.col-check { width: 36px; cursor: default; }
   tbody td {
     padding: 12px 16px;
     border-bottom: 1px solid var(--border);
     vertical-align: top;
   }
   tbody tr:hover { background: var(--row-hover); }
+  tbody tr.selected { background: var(--row-selected); }
+  tbody tr.archived { opacity: 0.5; }
+  td.col-check { width: 36px; }
+  td.col-check input { cursor: pointer; }
   td.title a {
     color: var(--text);
     font-weight: 500;
     text-decoration: none;
   }
-  td.title a:hover { color: var(--accent); }
+  td.title a:hover { color: var(--accent); text-decoration: underline; }
   td.title .funder {
     display: block;
     color: var(--muted);
@@ -117,10 +162,10 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
-  .src-global-dev { background: #1f3a4d; color: #79c0ff; }
-  .src-ai-work    { background: #3d2e4d; color: #d2a8ff; }
-  .src-ai-agents  { background: #1f4d3a; color: #7ee2a8; }
-  .src-ai-eval    { background: #4d3a1f; color: #ffd57e; }
+  .src-global-dev { background: #ddf4ff; color: #0969da; }
+  .src-ai-work    { background: #fbefff; color: #8250df; }
+  .src-ai-agents  { background: #dafbe1; color: #1a7f37; }
+  .src-ai-eval    { background: #fff8c5; color: #9a6700; }
   td.deadline { white-space: nowrap; color: var(--muted); }
   td.deadline.soon { color: var(--warn); font-weight: 600; }
   td.deadline.rolling { color: var(--accent); font-style: italic; }
@@ -136,7 +181,18 @@
     font-size: 12px;
     text-align: center;
   }
-  footer a { color: var(--accent); }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .toggle input { cursor: pointer; }
 </style>
 </head>
 <body>
@@ -147,13 +203,24 @@
 <div class="toolbar">
   <input type="search" id="q" placeholder="Search title, funder, description…" />
   <div class="chips" id="trackerChips"></div>
+  <label class="toggle">
+    <input type="checkbox" id="showArchived" />
+    Show archived
+  </label>
+</div>
+<div class="actionbar hidden" id="actionbar">
+  <span id="selCount">0 selected</span>
+  <button class="btn btn-primary" id="archiveBtn">Archive selected</button>
+  <button class="btn" id="unarchiveBtn" style="display:none">Unarchive selected</button>
+  <button class="btn btn-ghost" id="clearSelBtn">Clear selection</button>
 </div>
 <table>
   <thead>
     <tr>
+      <th class="col-check"><input type="checkbox" id="checkAll" title="Select all visible"></th>
       <th data-sort="title">Title</th>
       <th data-sort="source_tracker">Tracker</th>
-      <th data-sort="deadline" class="sorted">Deadline</th>
+      <th data-sort="deadline" class="sorted asc">Deadline</th>
       <th data-sort="amount_raw">Amount</th>
       <th data-sort="thematic_fit">Fit</th>
     </tr>
@@ -162,14 +229,29 @@
 </table>
 <div class="empty" id="empty" style="display:none">No opportunities match your filters.</div>
 <footer>
-  Generated by the funding aggregator. Data files: <a href="../central/funding.csv">funding.csv</a> ·
-  <a href="data.json">data.json</a> · <code>central/funding.sqlite</code>
+  Generated by the funding aggregator. Data files:
+  <a href="../central/funding.csv">funding.csv</a> ·
+  <a href="data.json">data.json</a> ·
+  <code>central/funding.sqlite</code>
+  <br>
+  Archive state is stored in your browser (localStorage). Clearing browser data resets it.
 </footer>
 
 <script>
+const ARCHIVE_KEY = "funding_archive_v1";
 let DATA = [];
-const STATE = { q: "", trackers: new Set(), sort: "deadline", asc: true };
+let ARCHIVED = new Set(JSON.parse(localStorage.getItem(ARCHIVE_KEY) || "[]"));
+let SELECTED = new Set();
+const STATE = { q: "", trackers: new Set(), sort: "deadline", asc: true, showArchived: false };
 const TRACKERS = ["global-dev", "ai-work", "ai-agents", "ai-eval"];
+
+function rowKey(r) {
+  return `${r.source_tracker}::${r.url || r.title}`;
+}
+
+function saveArchive() {
+  localStorage.setItem(ARCHIVE_KEY, JSON.stringify([...ARCHIVED]));
+}
 
 function fmtDeadline(row) {
   if (row.rolling) return { text: "rolling", cls: "rolling" };
@@ -185,10 +267,18 @@ function fmtDeadline(row) {
   };
 }
 
-function render() {
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function visibleRows() {
   const q = STATE.q.toLowerCase();
   const trackerFilter = STATE.trackers;
   let rows = DATA.filter(r => {
+    const archived = ARCHIVED.has(rowKey(r));
+    if (!STATE.showArchived && archived) return false;
+    if (STATE.showArchived && !archived) return false;
     if (trackerFilter.size && !trackerFilter.has(r.source_tracker)) return false;
     if (!q) return true;
     return [r.title, r.funder, r.description, r.category]
@@ -203,13 +293,21 @@ function render() {
     if (av > bv) return STATE.asc ? 1 : -1;
     return 0;
   });
+  return rows;
+}
 
+function render() {
+  const rows = visibleRows();
   const tbody = document.getElementById("rows");
   tbody.innerHTML = "";
   for (const r of rows) {
+    const key = rowKey(r);
     const tr = document.createElement("tr");
+    if (SELECTED.has(key)) tr.classList.add("selected");
+    if (ARCHIVED.has(key)) tr.classList.add("archived");
     const dl = fmtDeadline(r);
     tr.innerHTML = `
+      <td class="col-check"><input type="checkbox" data-key="${escapeHtml(key)}" ${SELECTED.has(key) ? "checked" : ""}></td>
       <td class="title">
         <a href="${r.url || "#"}" target="_blank" rel="noopener">${escapeHtml(r.title)}</a>
         ${r.funder ? `<span class="funder">${escapeHtml(r.funder)}</span>` : ""}
@@ -223,12 +321,21 @@ function render() {
   }
   document.getElementById("empty").style.display = rows.length ? "none" : "block";
   document.getElementById("meta").textContent =
-    `${rows.length} of ${DATA.length} opportunities · ${[...new Set(DATA.map(r => r.source_tracker))].length} trackers`;
+    `${rows.length} ${STATE.showArchived ? "archived" : "active"} · ${DATA.length} total · ${ARCHIVED.size} archived`;
+  updateActionBar();
+  document.getElementById("checkAll").checked = false;
 }
 
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c =>
-    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+function updateActionBar() {
+  const bar = document.getElementById("actionbar");
+  if (SELECTED.size === 0) {
+    bar.classList.add("hidden");
+    return;
+  }
+  bar.classList.remove("hidden");
+  document.getElementById("selCount").textContent = `${SELECTED.size} selected`;
+  document.getElementById("archiveBtn").style.display = STATE.showArchived ? "none" : "";
+  document.getElementById("unarchiveBtn").style.display = STATE.showArchived ? "" : "none";
 }
 
 function buildChips() {
@@ -247,6 +354,43 @@ function buildChips() {
   }
 }
 
+document.getElementById("rows").addEventListener("change", e => {
+  if (e.target.matches("input[type=checkbox][data-key]")) {
+    const key = e.target.dataset.key;
+    if (e.target.checked) SELECTED.add(key);
+    else SELECTED.delete(key);
+    e.target.closest("tr").classList.toggle("selected", e.target.checked);
+    updateActionBar();
+  }
+});
+
+document.getElementById("checkAll").addEventListener("change", e => {
+  const rows = visibleRows();
+  if (e.target.checked) {
+    for (const r of rows) SELECTED.add(rowKey(r));
+  } else {
+    for (const r of rows) SELECTED.delete(rowKey(r));
+  }
+  render();
+});
+
+document.getElementById("archiveBtn").onclick = () => {
+  for (const k of SELECTED) ARCHIVED.add(k);
+  SELECTED.clear();
+  saveArchive();
+  render();
+};
+document.getElementById("unarchiveBtn").onclick = () => {
+  for (const k of SELECTED) ARCHIVED.delete(k);
+  SELECTED.clear();
+  saveArchive();
+  render();
+};
+document.getElementById("clearSelBtn").onclick = () => {
+  SELECTED.clear();
+  render();
+};
+
 document.querySelectorAll("th[data-sort]").forEach(th => {
   th.onclick = () => {
     const key = th.dataset.sort;
@@ -259,6 +403,11 @@ document.querySelectorAll("th[data-sort]").forEach(th => {
   };
 });
 document.getElementById("q").oninput = e => { STATE.q = e.target.value; render(); };
+document.getElementById("showArchived").onchange = e => {
+  STATE.showArchived = e.target.checked;
+  SELECTED.clear();
+  render();
+};
 
 buildChips();
 fetch("data.json")
